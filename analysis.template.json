@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "servers_name": {
+            "defaultValue": "asmvpconfdev",
+            "type": "String"
+        },
+        "resourceTags": {
+            "type": "object",
+            "defaultValue": {
+                "Project": "DataWarehouse",
+                "Analytics-StartStop": "0700;2000;ast;weekdays"
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.AnalysisServices/servers",
+            "apiVersion": "2017-08-01",
+            "name": "[parameters('servers_name')]",
+            "location": "[resourceGroup().location]",
+            "tags": "[parameters('resourceTags')]",
+            "sku": {
+                "name": "D1",
+                "capacity": 1
+            },
+            "properties": {
+                "asAdministrators": {
+                    "members": [
+                        "difilho_msn.com#EXT#@difilhomsn.onmicrosoft.com",
+                        "app:c58d149e-7a18-4764-9c71-61448fe3b9be@8a74e1e0-19f6-4156-ac12-2e84df0195ee",
+                        "dirceu@difilhomsn.onmicrosoft.com"
+                    ]
+                },
+                "querypoolConnectionMode": "All"
+            }
+        }
+    ]
+}
