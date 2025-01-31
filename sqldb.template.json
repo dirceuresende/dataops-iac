@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sqlServerName": {
+            "defaultValue": "sql-dataops-qa",
+            "type": "String"
+        },
+		"sqlDbName": {
+            "defaultValue": "sqldb-dataops-qa",
+            "type": "String"
+        },
+		"location": {
+            "defaultValue": "eastus",
+            "type": "String"
+        },
+		"environment": {
+            "defaultValue": "dev",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Sql/servers/databases",
+            "apiVersion": "2021-02-01-preview",
+            "name": "[concat(parameters('sqlServerName'), '/', parameters('sqlDbName'))]",
+            "location": "[parameters('location')]",
+            "tags": {
+                "environment": "[parameters('environment')]"
+            },
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard",
+                "capacity": 10
+            },
+            "kind": "v12.0,user",
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "maxSizeBytes": 268435456000,
+                "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+                "zoneRedundant": false,
+                "readScale": "Disabled",
+                "requestedBackupStorageRedundancy": "Zone"
+            }
+        }
+    ]
+}
